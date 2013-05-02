@@ -1,10 +1,12 @@
 package model
 
-import com.github.mauricio.async.db.Configuration
 import com.github.mauricio.async.db.postgresql.pool.{PoolConfiguration, ConnectionObjectFactory, ConnectionPool}
 import com.github.mauricio.async.db.util.URLParser
 import play.api.{Application, GlobalSettings}
 
+/**
+ * Aqui va la conf a la BD y
+ */
 object Global extends GlobalSettings {
 
   private val databaseConfiguration = System.getenv("DATABASE_URL") match {
@@ -15,7 +17,7 @@ object Global extends GlobalSettings {
   
   private val factory = new ConnectionObjectFactory( databaseConfiguration )
   private val pool = new ConnectionPool(factory, PoolConfiguration.Default)
-  val dipuService = new DefaultDipuService( pool )
+  val congreService = new DefaultCongreService( pool )
 
   override def onStop(app: Application) {
     pool.close

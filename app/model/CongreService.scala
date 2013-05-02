@@ -2,19 +2,22 @@ package model
 
 import scala.concurrent.Future
 
-import com.github.mauricio.async.db.{RowData, Connection}
+import com.github.mauricio.async.db.Connection
 import com.github.mauricio.async.db.util.ExecutorServiceUtils.CachedExecutionContext
 
 
 case class DistritoLoc(entidad:Int, distrito:Int, lng:String, lat:String)
 
-
-trait DipuService{
+/**
+ * Para acceder a la info de la BD, ahora solo se puede encontrar
+ * el distrito electoral de acuerdo a unas coordenadas
+ */
+trait CongreService{
   def findDistrito(lng:String, lat:String):Future[Option[DistritoLoc]]
 }
 
 
-class DefaultDipuService(pool: Connection) extends DipuService{  
+class DefaultCongreService(pool: Connection) extends CongreService{
   
   def distritoQry(lng:String, lat:String) = 
     s""" 

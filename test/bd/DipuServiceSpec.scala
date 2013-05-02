@@ -5,7 +5,7 @@ import scala.concurrent.duration._
 import org.specs2.mutable._
 import com.github.mauricio.async.db.util.URLParser
 import com.github.mauricio.async.db.postgresql.DatabaseConnectionHandler
-import model.DefaultDipuService
+import model.DefaultCongreService
 import model.DistritoLoc
 
 
@@ -20,7 +20,7 @@ class DipuServiceSpec extends Specification{
 
       val conf = URLParser.parse("jdbc:postgresql://127.0.0.1:5432/gisdb?username=postgres&password=dev")
    		val pool = new DatabaseConnectionHandler(conf)
-   		val dipuService = new DefaultDipuService( pool )
+   		val dipuService = new DefaultCongreService( pool )
    	  Await.result(pool.connect, DurationInt(5).seconds)
 
 	    val lng = "-88.98101806640625"
@@ -38,7 +38,7 @@ class DipuServiceSpec extends Specification{
     "reconocer un error en el servicio de BD" in{
       val conf = URLParser.parse("jdbc:postgresql://127.0.0.1:5432/notadb?username=postgres&password=dev")
       val pool = new DatabaseConnectionHandler(conf)
-   		val dipuService = new DefaultDipuService( pool )
+   		val dipuService = new DefaultCongreService( pool )
  	    dipuService.findDistrito("", "") should( throwA[Exception] )
     }
 

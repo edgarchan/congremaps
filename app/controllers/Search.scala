@@ -1,22 +1,31 @@
 package controllers
 
-
 import play.api.mvc.{AsyncResult, Action, Controller}
 import com.github.mauricio.async.db.util.ExecutorServiceUtils.CachedExecutionContext
 import play.api.libs.json._
 import model.DistritoLoc
-import model.DipuService
+import model.CongreService
 
-trait SearchApi{ 
+/**
+ *  Servicios de busqueda
+ */
+trait SearchApi{
   this: Controller =>
   
-  val dipuService: DipuService
+  val congreService: CongreService
   
-  val distJsFormat = Json.writes[DistritoLoc]  
-  
+  val distJsFormat = Json.writes[DistritoLoc]
+
+  /**
+   * Rest para buscar un distrito electoral
+   *
+   * @param lng latitud
+   * @param lat longitud
+   * @return  json de DistritoLoc
+   */
   def loc(lng:String, lat:String) = Action{
     AsyncResult{
-       dipuService.findDistrito(lng, lat).collect{
+      congreService.findDistrito(lng, lat).collect{
          case Some(rst) => {
            val jsRst = Json.toJson(rst)(distJsFormat)
            Ok(jsRst)
@@ -28,6 +37,9 @@ trait SearchApi{
 }
 
 
+/**
+ * Punto de acceso desde el cliente
+ */
 object Search extends Controller with SearchApi{  
-  lazy val dipuService = model.Global.dipuService
+  lazy val congreService = model.Global.congreService
 }

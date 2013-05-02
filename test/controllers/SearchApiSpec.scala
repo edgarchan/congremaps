@@ -1,7 +1,7 @@
 package controllers
 
 import org.specs2.mutable._
-import model.{DistritoLoc, DipuService}
+import model.{DistritoLoc, CongreService}
 import scala.concurrent.{ExecutionContext, Future}
 import play.api.mvc.Controller
 import java.util.concurrent.Executors
@@ -15,7 +15,7 @@ class SearchApiSpec extends Specification{
   val lngOk = "-88.98101806640625"
   val latOk = "21.022982546427425"
 
-  object FakeDipuService extends DipuService{
+  object FakeDipuService extends CongreService{
 
     def findDistrito(lng:String, lat:String):Future[Option[DistritoLoc]]={
 
@@ -31,7 +31,7 @@ class SearchApiSpec extends Specification{
   }
 
   class SearchTestController extends Controller with SearchApi{
-    val dipuService = FakeDipuService
+    val congreService = FakeDipuService
   }
 
 
