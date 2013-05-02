@@ -28,8 +28,6 @@ trait SearchApi{
 }
 
 
-
-
 object Search extends Controller with SearchApi{  
   lazy val dipuService = model.Global.dipuService
 }
