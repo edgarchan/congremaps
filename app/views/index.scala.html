@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html ng-app="congremapsApp">
+<head>
+    <meta charset="utf-8">
+    <title>congremaps</title>
+    <meta name="description" content="congremaps">
+
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+   	<script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/jquery-ui.min.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.0.6/angular.min.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.0.6/angular-resource.min.js"></script>
+    <script type="text/javascript" src='@routes.Assets.at("javascripts/ui-bootstrap-tpls-0.2.0.js")'></script>
+    <script type="text/javascript" src='@routes.Assets.at("javascripts/angular-ui.min.js")'></script>
+    <script type="text/javascript" src='@routes.Assets.at("javascripts/app.js")'></script>
+    <link href="http://netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/css/bootstrap.min.css" rel="stylesheet"/>
+    <link href='@routes.Assets.at("stylesheets/angular-ui.min.css")' rel="stylesheet"/>
+    <script src="http://maps.googleapis.com/maps/api/js?sensor=false"></script>
+
+    <style>
+       #mapa{
+         padding: 0;
+       }
+      #map_canvas{
+        margin:0;
+       }
+      .map {height: 600px; width: 100%;}
+       .page-header{ margin:0px 0 30px;}
+    </style>
+
+
+</head>
+<body>
+<header class="navbar navbar-fixed-top">
+    <div class="navbar-inner">
+    <div class="container">
+      <div class="dropdown pull-left">
+        <a class="brand dropdown-toggle" role="button" data-toggle="dropdown" href="#">
+          congremaps
+          <b class="caret"></b>
+        </a>
+      </div>
+    </div>
+  </div>
+</header>
+
+<div role="main">
+    <div class="page-header"></div>
+    <div id="mapa" class="container-fluid" ng-controller="MapCtrl">
+        <div class="span3">
+            <div ng-repeat="marker in myMarkers" ui-map-marker="myMarkers[$index]"
+                ui-event="{'map-click': 'openMarkerInfo(marker)'}">
+            </div>
+
+            <div ui-map-info-window="myInfoWindow">
+                <h3>Geoelectoral</h3>
+                Entidad:"{{entidad}}", Distrito:"{{distrito}}"
+            </div>
+        </div>
+        <div id="map_canvas" ui-map="myMap" class="span8 map"
+            ui-event="{'map-click': 'addMarker($event)'}"
+            ui-options="mapOptions">
+        </div>
+	</div>
+ </div>
+
+
+</body>
+</html>
