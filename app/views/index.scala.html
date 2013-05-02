@@ -5,8 +5,7 @@
     <title>congremaps</title>
     <meta name="description" content="congremaps">
 
-    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
-   	<script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/jquery-ui.min.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js"></script>
     <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.0.6/angular.min.js"></script>
     <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.0.6/angular-resource.min.js"></script>
     <script type="text/javascript" src='@routes.Assets.at("javascripts/ui-bootstrap-tpls-0.2.0.js")'></script>
@@ -38,6 +37,29 @@
           congremaps
           <b class="caret"></b>
         </a>
+        <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+           <li><a href="https://github.com/edgarchan/congremaps" target="_blank">Fork en GitHub</a></li>
+        </ul>
+      </div>
+      <div class="nav-collapse">
+          <ul class="nav" ng-controller="MarcadorCtrl">
+             <li>
+                 <a href="#" role="button" class="dropdown-toggle">
+                     <span class="badge badge-info">{{myMarkers.length}}</span> click en el mapa para hacer un marcador
+                     <b class="caret"></b>
+                 </a>
+                 <ul class="dropdown-menu">
+                     <li ng-repeat="mkr in myMarkers">
+                        <a href="#" ng-click="mkrInfo($index)"> {{mkrLabel($index)}}</a>
+                     </li>
+                 </ul>
+             </li>
+              <li>
+                  <p id="msg-status" style="margin-top:10px;color:#b94a48;display:none;">
+                      Oops, el marcador esta muy lejos
+                  </p>
+              </li>
+          </ul>
       </div>
     </div>
   </div>
@@ -48,7 +70,7 @@
     <div id="mapa" class="container-fluid" ng-controller="MapCtrl">
         <div class="span3">
             <div ng-repeat="marker in myMarkers" ui-map-marker="myMarkers[$index]"
-                ui-event="{'map-click': 'openMarkerInfo(marker)'}">
+                ui-event="{'map-click': 'openMarkerInfo($index)'}">
             </div>
 
             <div ui-map-info-window="myInfoWindow">
