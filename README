@@ -1,4 +1,9 @@
-This is your new Play 2.1 application
+En
 =====================================
 
-This file will be packaged with your application, when using `play dist`.
+Ubicar en el mapa la información de los representantes del congreso.
+
+Info de geolocalización extraida del Inegi via
+http://gaia.inegi.org.mx/geoelectoral/viewer.html
+
+

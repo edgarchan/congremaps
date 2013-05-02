@@ -28,5 +28,3 @@ function MapCtrl($scope, $http) {
 	};
 
 }
-
-
