@@ -21,7 +21,9 @@ congremapsApp.factory('Markers', function(){
    return { lista : new Array() }
 })
 
-.controller('WaveCtrl', function($scope, $http, Senadores){
+.controller('WaveCtrl', function($scope, $http, Senadores, appLoading){
+
+   appLoading.loading();
 
    $scope.senadoTitulo = "";
    $scope.senadores = Senadores.lista;
@@ -42,20 +44,25 @@ congremapsApp.factory('Markers', function(){
    }
 
    $scope.showInfo = function(dist){
+      appLoading.loading();
       $scope.setInfoWave();
+      $scope.senadores = [];
       $http.get(
         'sen/'+ dist.entidad
       ).success(function(info) {
           $scope.senadoTitulo = dist.nombreedo
           $scope.senadores = info;
+          appLoading.ready();
       });
    }
 
    $scope.setMapWave();
+
+   appLoading.ready();
 })
 
 
-.controller('MarcadorCtrl', function($scope, Markers) {
+.controller('MarcadorCtrl', function($scope, Markers, appLoading) {
     $scope.myMarkers  = Markers.lista;
 
     $scope.mkrLabel = function(m){
@@ -63,17 +70,19 @@ congremapsApp.factory('Markers', function(){
     }
 
     $scope.mkrInfo = function(m){
+       appLoading.loading();
        var restore = $scope.isNotMapWave();
        if( restore ){
           $scope.setMapWave();
        }
        //hack para restaurar el estado del mapa
        setTimeout(function(){Markers.goTo(m, restore );},800);
+       appLoading.ready();
     }
 
 })
 
-.controller('MapCtrl', function($scope, $http, Markers) {
+.controller('MapCtrl', function($scope, $http, Markers, appLoading) {
 
 	$scope.myMarkers  = Markers.lista;
 
@@ -84,11 +93,10 @@ congremapsApp.factory('Markers', function(){
         });
     }
 
+    //horriblemente hay que volver a crear las marcas cuando se cambia de vista
 	Markers.goTo = function(idx, restore){
 	    var mkr = $scope.myMarkers[idx];
 	    $scope.myMap.setCenter(mkr.getPosition());
-
-	    //horriblemente hay que volver a crear las marcas cuando se cambia de vista
 	    if (restore){
 	        $scope.myMap.setZoom( Markers.zoom );
 	        var length = $scope.myMarkers.length;
@@ -110,6 +118,7 @@ congremapsApp.factory('Markers', function(){
 
 	$scope.addMarker = function($event) {
 	     if (Markers.total > 0){
+	        appLoading.loading();
             $http.get(
               'loc/'+ $event.latLng.kb + '/' + $event.latLng.jb
             ).success(function(info) {
@@ -120,6 +129,7 @@ congremapsApp.factory('Markers', function(){
                 $scope.myMarkers.push(mkr);
                 Markers.info.push(info);
                 Markers.total -= 1;
+                appLoading.ready();
             }).error(function(noinf){
                MuestraMsg();
             });
@@ -133,4 +143,31 @@ congremapsApp.factory('Markers', function(){
 		);
 
 	};
-});
+})
+
+.factory('appLoading', function($rootScope) {
+    var timer;
+    return {
+      loading : function() {
+        clearTimeout(timer);
+        $rootScope.status = 'loading';
+        if(!$rootScope.$$phase) $rootScope.$apply();
+      },
+      ready : function(delay) {
+        function ready() {
+          $rootScope.status = 'ready';
+          if(!$rootScope.$$phase) $rootScope.$apply();
+        }
+
+        clearTimeout(timer);
+        delay = delay == null ? 500 : false;
+        if(delay) {
+          timer = setTimeout(ready, delay);
+        }
+        else {
+          ready();
+        }
+      }
+    };
+  })
+
