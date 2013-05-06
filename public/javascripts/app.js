@@ -1,3 +1,11 @@
+function MuestraMsg(){
+ var el = $("#msg-status");
+ if(!el.is(":visible")){
+     $("#msg-status").fadeIn();
+     $("#msg-status").fadeOut(1400);
+ }
+}
+
 var congremapsApp = angular.module('congremapsApp', ['ui.bootstrap', 'ui']);
 
 congremapsApp.factory('Markers', function(){
@@ -7,13 +15,13 @@ congremapsApp.factory('Markers', function(){
             zoom  : 5,
             total : 5
          }
-});
+})
 
-congremapsApp.factory('Senadores', function(){
+.factory('Senadores', function(){
    return { lista : new Array() }
-});
+})
 
-function WaveCtrl($scope, $http, Senadores){
+.controller('WaveCtrl', function($scope, $http, Senadores){
 
    $scope.senadoTitulo = "";
    $scope.senadores = Senadores.lista;
@@ -35,7 +43,6 @@ function WaveCtrl($scope, $http, Senadores){
 
    $scope.showInfo = function(dist){
       $scope.setInfoWave();
-
       $http.get(
         'sen/'+ dist.entidad
       ).success(function(info) {
@@ -45,17 +52,10 @@ function WaveCtrl($scope, $http, Senadores){
    }
 
    $scope.setMapWave();
-}
+})
 
-function MuestraMsg(){
- var el = $("#msg-status");
- if(!el.is(":visible")){
-     $("#msg-status").fadeIn();
-     $("#msg-status").fadeOut(1400);
- }
-}
 
-function MarcadorCtrl($scope, Markers) {
+.controller('MarcadorCtrl', function($scope, Markers) {
     $scope.myMarkers  = Markers.lista;
 
     $scope.mkrLabel = function(m){
@@ -71,9 +71,9 @@ function MarcadorCtrl($scope, Markers) {
        setTimeout(function(){Markers.goTo(m, restore );},800);
     }
 
-}
+})
 
-function MapCtrl($scope, $http, Markers) {
+.controller('MapCtrl', function($scope, $http, Markers) {
 
 	$scope.myMarkers  = Markers.lista;
 
@@ -133,4 +133,4 @@ function MapCtrl($scope, $http, Markers) {
 		);
 
 	};
-}
+});
