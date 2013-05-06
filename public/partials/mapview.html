@@ -1,0 +1,16 @@
+<div id="mapa" class="container-fluid">
+    <div class="span3">
+        <div ng-repeat="marker in myMarkers" ui-map-marker="myMarkers[$index]"
+            ui-event="{'map-click': 'openMarkerInfo($index)'}">
+        </div>
+
+        <div ui-map-info-window="myInfoWindow">
+            <h3>Geoelectoral</h3>
+            Entidad:"{{entidad}}", Distrito:"{{distrito}}"
+        </div>
+    </div>
+    <div id="map_canvas" ui-map="myMap" class="span8 map"
+        ui-event="{'map-click': 'addMarker($event)'}"
+        ui-options="mapOptions">
+    </div>
+</div>
