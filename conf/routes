@@ -5,8 +5,12 @@
 # Home page
 GET     /                           controllers.Application.index
 
+GET		/app/*html 				    controllers.Application.partials(html)
 
 GET     /loc/:lng/:lat              controllers.Search.loc(lng:String, lat:String)
+
+GET     /sen/:entidad               controllers.Search.sen(entidad:Int)
+
 
 
 # Map static resources from the /public folder to the /assets URL path
