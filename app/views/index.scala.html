@@ -4,6 +4,7 @@
     <meta charset="utf-8">
     <title>congremaps</title>
     <meta name="description" content="congremaps">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js"></script>
     <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.1.4/angular.min.js"></script>
@@ -12,6 +13,7 @@
     <script type="text/javascript" src='@routes.Assets.at("javascripts/angular-ui.min.js")'></script>
     <script type="text/javascript" src='@routes.Assets.at("javascripts/app.js")'></script>
     <link href="http://netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/css/bootstrap.min.css" rel="stylesheet"/>
+    <link href="http://netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/css/bootstrap-responsive.min.css" rel="stylesheet"/>
     <link href='@routes.Assets.at("stylesheets/angular-ui.min.css")' rel="stylesheet"/>
     <script src="http://maps.googleapis.com/maps/api/js?sensor=false"></script>
     <link href='@routes.Assets.at("stylesheets/app.css")' rel="stylesheet"/>
@@ -19,91 +21,97 @@
 
 </head>
 <body ng-controller="WaveCtrl">
-<header class="navbar navbar-fixed-top">
-    <div class="navbar-inner">
-    <div class="container">
 
-        <span class="app-loading-container">
-          <span class="app-loading-animation" data-ng-class="status"></span>
-        </span>
+<div class="container-fluid">
 
-      <div class="dropdown pull-left">
-        <a class="brand dropdown-toggle" role="button" data-toggle="dropdown" href="#">
-          congremaps
-          <b class="caret"></b>
-        </a>
-        <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
-           <li><a href="https://github.com/edgarchan/congremaps" target="_blank">Fork en GitHub</a></li>
-        </ul>
-      </div>
-      <div class="nav-collapse">
-          <ul class="nav" ng-controller="MarcadorCtrl">
-             <li>
-                 <a href="#" role="button" class="dropdown-toggle">
-                     <span class="badge badge-info">{{myMarkers.length}}</span> click en el mapa para hacer un marcador
-                     <b class="caret"></b>
-                 </a>
-                 <ul class="dropdown-menu">
-                     <li ng-repeat="mkr in myMarkers">
-                        <a href="#" ng-click="mkrInfo($index)"> {{mkrLabel($index)}}</a>
+        <header class="navbar navbar-fixed-top">
+            <div class="navbar-inner">
+            <div class="row-fluid">
+
+                <span class="app-loading-container">
+                  <span class="app-loading-animation" data-ng-class="status"></span>
+                </span>
+
+              <div class="dropdown pull-left">
+                <a class="brand dropdown-toggle" role="button" data-toggle="dropdown" href="#">
+                  congremaps
+                  <b class="caret"></b>
+                </a>
+                <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+                   <li><a href="https://github.com/edgarchan/congremaps" target="_blank">Fork en GitHub</a></li>
+                </ul>
+              </div>
+              <div class="nav-collapse">
+                  <ul class="nav" ng-controller="MarcadorCtrl">
+                     <li>
+                         <a href="#" role="button" class="dropdown-toggle">
+                             <span class="badge badge-info">{{myMarkers.length}}</span> click en el mapa para hacer un marcador
+                             <b class="caret"></b>
+                         </a>
+                         <ul class="dropdown-menu">
+                             <li ng-repeat="mkr in myMarkers">
+                                <a href="#" ng-click="mkrInfo($index)"> {{mkrLabel($index)}}</a>
+                             </li>
+                         </ul>
                      </li>
-                 </ul>
-             </li>
-              <li>
-                  <p id="msg-status" style="margin-top:10px;color:#b94a48;display:none;">
-                      Oops, el marcador esta muy lejos
-                  </p>
-              </li>
-          </ul>
-      </div>
-    </div>
-  </div>
-</header>
+                      <li>
+                          <p id="msg-status" style="margin-top:10px;color:#b94a48;display:none;">
+                              Oops, el marcador esta muy lejos
+                          </p>
+                      </li>
+                  </ul>
+              </div>
+            </div>
+          </div>
+        </header>
 
-<div role="main">
-    <div class="page-header"></div>
+        <div id="contenido" role="main" class="row-fluid">
 
-    <div data-ng-switch="wave" data-ng-animate="'wave'" class="slide-frame">
+            <div data-ng-switch="wave" data-ng-animate="'wave'" class="slide-frame">
 
-        <div data-ng-switch-when="one">
-            <div id="mapa" class="container-fluid" ng-controller="MapCtrl">
-                <div class="span3">
-                    <div ng-repeat="marker in myMarkers" ui-map-marker="myMarkers[$index]"
-                        ui-event="{'map-click': 'openMarkerInfo($index)'}">
-                    </div>
-                    <div ui-map-info-window="myInfoWindow">
-                        <h3>Geoelectoral</h3>
-                        Entidad:"{{entidad}}", Distrito:"{{distrito}}"
+                <div data-ng-switch-when="one">
+                    <div id="mapa" class="container-fluid" ng-controller="MapCtrl">
+                        <div>
+                            <div ng-repeat="marker in myMarkers" ui-map-marker="myMarkers[$index]"
+                                ui-event="{'map-click': 'openMarkerInfo($index)'}">
+                            </div>
+                            <div ui-map-info-window="myInfoWindow">
+                                <h3>Geoelectoral</h3>
+                                Entidad:"{{entidad}}", Distrito:"{{distrito}}"
+                            </div>
+                        </div>
+                        <div id="map_canvas" ui-map="myMap" class="map"
+                            ui-event="{'map-click': 'addMarker($event)'}"
+                            ui-options="mapOptions">
+                        </div>
                     </div>
                 </div>
-                <div id="map_canvas" ui-map="myMap" class="span8 map"
-                    ui-event="{'map-click': 'addMarker($event)'}"
-                    ui-options="mapOptions">
+
+                <div data-ng-switch-when="two">
+                    <div class="row-fluid offset1">
+                        <div class="page-header span9">
+                            <h3>Senadores de {{ senadoTitulo }}</h3>
+                        </div>
+
+                        <div ng-repeat="sen in senadores" class="span9">
+
+                            <div class="span2" style="text-align:center;">
+                               <img ng-src="http://www.senado.gob.mx/library/int/entidad/{{sen.urlimg}}" class="img-polaroid">
+                            </div>
+
+                            <div class="span6">
+                                {{sen.nombre}}
+                            </div>
+
+                         </div>
+                    </div>
                 </div>
             </div>
+
+
+
         </div>
-
-        <div data-ng-switch-when="two">
-            <div class="row offset2">
-                <h3>Senadores de {{ senadoTitulo }}</h3>
-                <div ng-repeat="sen in senadores" class="span9">
-
-                    <div class="span2" style="text-align:center;">
-                       <img ng-src="http://www.senado.gob.mx/library/int/entidad/{{sen.urlimg}}" class="img-polaroid">
-                    </div>
-
-                    <div class="span6">
-                        {{sen.nombre}}
-                    </div>
-
-                 </div>
-            </div>
-        </div>
-    </div>
-
-
 
 </div>
-
 </body>
 </html>
