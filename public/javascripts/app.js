@@ -120,7 +120,7 @@ congremapsApp.factory('Markers', function(){
 	     if (Markers.total > 0){
 	        appLoading.loading();
             $http.get(
-              'loc/'+ $event.latLng.lb + '/' + $event.latLng.kb
+              'loc/'+ $event.latLng.kb + '/' + $event.latLng.jb
             ).success(function(info) {
                 var mkr = new google.maps.Marker({
                                     map: $scope.myMap,

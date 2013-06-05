@@ -1,6 +1,3 @@
-body > .container-fluid{
-  padding:0;
-}
 
 #mapa{
  padding: 0;
@@ -8,12 +5,9 @@ body > .container-fluid{
 #map_canvas{
 margin:0;
 }
-      .map {min-height: 570px; width: 100%;}
-       /* .page-header{ margin:0px 0 30px;}*/
+.map {min-height: 570px; width: 100%;}
 
-       #contenido{
-         margin-top: 40px;
-       }
+  /* .page-header{ margin:0px 0 30px;}*/
 
         .wave-enter-setup, .wave-leave-setup {
           -webkit-transition:all cubic-bezier(0.250, 0.460, 0.450, 0.940) 0.5s;

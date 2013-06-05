@@ -41,7 +41,7 @@
                    <li><a href="https://github.com/edgarchan/congremaps" target="_blank">Fork en GitHub</a></li>
                 </ul>
               </div>
-              <div class="nav-collapse">
+              <div class=dropdown">
                   <ul class="nav" ng-controller="MarcadorCtrl">
                      <li>
                          <a href="#" role="button" class="dropdown-toggle">
@@ -88,18 +88,18 @@
                 </div>
 
                 <div data-ng-switch-when="two">
-                    <div class="row-fluid offset1">
-                        <div class="page-header span9">
+                    <div class="row-fluid">
+                        <div class="page-header span8">
                             <h3>Senadores de {{ senadoTitulo }}</h3>
                         </div>
 
-                        <div ng-repeat="sen in senadores" class="span9">
+                        <div ng-repeat="sen in senadores" class="span8">
 
                             <div class="span2" style="text-align:center;">
                                <img ng-src="http://www.senado.gob.mx/library/int/entidad/{{sen.urlimg}}" class="img-polaroid">
                             </div>
 
-                            <div class="span6">
+                            <div class="span4">
                                 {{sen.nombre}}
                             </div>
 
